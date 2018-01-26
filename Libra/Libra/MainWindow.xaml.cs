@@ -20,9 +20,26 @@ namespace Libra
     /// </summary>
     public partial class MainWindow : Window
     {
+        public int Serial;
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void btnRent_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnReturn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BookData_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
