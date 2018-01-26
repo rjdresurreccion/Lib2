@@ -13,21 +13,37 @@ namespace Libra
     {
         SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Library"].ConnectionString);
 
-        public bool GetBook(int Serial)
+        public DataTable GetBookInventory(int Serial)
         {
-            string Title, Author, Genre;
-
             try
             {
-                SqlCommand cmd1 = new SqlCommand("SPBReturnBooks", con);
-                cmd1.CommandType = CommandType.StoredProcedure;
-                cmd1.Parameters.AddWithValue("@SerialNumber", Serial);
+                SqlCommand cmd = new SqlCommand("SELECT " + Serial + " FROM EmployeeDatabase", con);
+                cmd.CommandType = CommandType.Text;
 
+                con.Open();
+                cmd.ExecuteNonQuery();
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+                con.Close();
+                return dt;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
 
-
-                SqlCommand cmd = new SqlCommand("SPIGetBooks", con);
+        public bool AddBookToBorrowed(int Serial, string Title, string Author, string Genre)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SPBReturnBooks", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@SerialNumber", Serial);
+                cmd.Parameters.AddWithValue("@Serial", Serial);
+                cmd.Parameters.AddWithValue("@Title", Title);
+                cmd.Parameters.AddWithValue("@Author", Author);
+                cmd.Parameters.AddWithValue("@Genre", Genre);
 
                 con.Open();
                 cmd.ExecuteNonQuery();
@@ -35,12 +51,78 @@ namespace Libra
 
                 return true;
             }
-            catch
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool AddBookToInventory(int Serial, string Title, string Author, string Genre)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SPIReturnBooks", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Serial", Serial);
+                cmd.Parameters.AddWithValue("@Title", Title);
+                cmd.Parameters.AddWithValue("@Author", Author);
+                cmd.Parameters.AddWithValue("@Genre", Genre);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+
+                return true;
+            }
+            catch (Exception)
             {
                 return false;
             }
         }
 
+        public bool RemoveBookToBorrowed(int Serial, string Title, string Author, string Genre)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SPBGetBooks", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Serial", Serial);
+                cmd.Parameters.AddWithValue("@Title", Title);
+                cmd.Parameters.AddWithValue("@Author", Author);
+                cmd.Parameters.AddWithValue("@Genre", Genre);
 
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool RemoveBookToInventory(int Serial, string Title, string Author, string Genre)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SPIGetBooks", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Serial", Serial);
+                cmd.Parameters.AddWithValue("@Title", Title);
+                cmd.Parameters.AddWithValue("@Author", Author);
+                cmd.Parameters.AddWithValue("@Genre", Genre);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }
