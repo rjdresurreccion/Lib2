@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,22 +15,34 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Libra
-{
+{   
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
         public int BookSerial = 0 ;
-
+        DBFunctions LibQry = new DBFunctions();
         public MainWindow()
         {
             InitializeComponent();
+            DataTable dt = LibQry.GetEmployeeList();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                _List.Add(new EmployeeModel
+                {
+                    Code = Int32.Parse(row["Code"].ToString()),
+                    ID = (row["ID"].ToString()),
+                    FullName = row["FullName"].ToString(),
+                    Age = Int32.Parse(row["Age"].ToString()),
+                    Division = row["Division"].ToString()
+                });
+            }
         }
 
         private void btnRent_Click(object sender, RoutedEventArgs e)
         {
-<<<<<<< HEAD
             if (BookSerial != 0)
             {
 
@@ -38,10 +51,7 @@ namespace Libra
             {
                 MessageBox.Show("No Item Selected");
             }
-
-=======
-            //oppapitsr
->>>>>>> 407694b5c1dc928ade65757e5564dbc04703c05c
+            
         }
 
         private void btnReturn_Click(object sender, RoutedEventArgs e)
