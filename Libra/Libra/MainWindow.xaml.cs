@@ -29,7 +29,7 @@ namespace Libra
 
         private void btnRent_Click(object sender, RoutedEventArgs e)
         {
-
+            //
         }
 
         private void btnReturn_Click(object sender, RoutedEventArgs e)
