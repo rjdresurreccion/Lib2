@@ -29,6 +29,7 @@ namespace Libra
 
         private void btnRent_Click(object sender, RoutedEventArgs e)
         {
+<<<<<<< HEAD
             if (BookSerial != 0)
             {
 
@@ -38,6 +39,9 @@ namespace Libra
                 MessageBox.Show("No Item Selected");
             }
 
+=======
+            //oppapitsr
+>>>>>>> 407694b5c1dc928ade65757e5564dbc04703c05c
         }
 
         private void btnReturn_Click(object sender, RoutedEventArgs e)
