@@ -20,7 +20,7 @@ namespace Libra
     /// </summary>
     public partial class MainWindow : Window
     {
-        public int Serial;
+        public int BookSerial = 0 ;
 
         public MainWindow()
         {
@@ -29,17 +29,30 @@ namespace Libra
 
         private void btnRent_Click(object sender, RoutedEventArgs e)
         {
-            //oppapits
+            if (BookSerial != 0)
+            {
+
+            }
+            else
+            {
+                MessageBox.Show("No Item Selected");
+            }
+
         }
 
         private void btnReturn_Click(object sender, RoutedEventArgs e)
         {
+            BookSerial = Int32.Parse(txtCode.ToString());
 
         }
 
-        private void BookData_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void BookData_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            dynamic SelectedRow = BookData.SelectedItem;
+            if (SelectedRow != null)
+            {
+                BookSerial = SelectedRow.Serial;
+            }
         }
     }
 }
